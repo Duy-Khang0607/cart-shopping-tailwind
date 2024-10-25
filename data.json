@@ -108,5 +108,29 @@
         "category": "Panna Cotta",
         "price": 6.50,
         "id": 9
+     },
+     {
+        "image": {
+            "thumbnail": "./assets/images/image-panna-cotta-thumbnail.jpg",
+            "mobile": "./assets/images/image-panna-cotta-mobile.jpg",
+            "tablet": "./assets/images/image-panna-cotta-tablet.jpg",
+            "desktop": "/src/assets/gori8.jpg"
+        },
+        "name": "Vanilla Panna Cotta",
+        "category": "Panna Cotta",
+        "price": 6.50,
+        "id": 10
+     },
+     {
+        "image": {
+            "thumbnail": "./assets/images/image-panna-cotta-thumbnail.jpg",
+            "mobile": "./assets/images/image-panna-cotta-mobile.jpg",
+            "tablet": "./assets/images/image-panna-cotta-tablet.jpg",
+            "desktop": "/src/assets/gori8.jpg"
+        },
+        "name": "Vanilla Panna Cotta",
+        "category": "Panna Cotta",
+        "price": 6.50,
+        "id": 10
      }
 ]

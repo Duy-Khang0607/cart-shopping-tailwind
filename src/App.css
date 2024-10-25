@@ -43,19 +43,21 @@
 
 @keyframes jumpOut {
   0% {
-    transform: translateX(0);
+    transform: translateX(0) translateY(0);
     opacity: 1;
   }
   50% {
-    transform: translateX(100px) translateY(-20px);
+    transform: translateX(100px) translateY(-50px);
     opacity: 0.7;
   }
   100% {
-    transform: translateX(200px) translateY(-50px);
+    transform: translateX(300px) translateY(-100px);
     opacity: 0;
   }
 }
 
+
 .jump-out {
-  animation: jumpOut 0.5s forwards;
+  /* animation: jumpOut 0.5s forwards; */
+  animation: jumpOut 0.5s ease-in-out forwards;
 }
