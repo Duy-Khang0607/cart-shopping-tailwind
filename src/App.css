@@ -41,6 +41,7 @@
   color: #888;
 } */
 
+/* Animation delete cart */
 @keyframes jumpOut {
   0% {
     transform: translateX(0) translateY(0);
@@ -56,6 +57,94 @@
   }
 }
 
+/* Animation add cart */
+@keyframes addToCart {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(500px, -300px); 
+    opacity: 0;
+  }
+}
+
+/* Animation add cart */
+@keyframes toss {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2) translateY(-20px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 0;
+  }
+}
+
+/* Animation add cart */
+@keyframes flyToCart {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(100vw - 90px), -500px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+}
+
+.sendtocart {
+  animation: flyToCart 1s ease-in-out forwards;
+}
+
+.shake {
+  animation: shake 0.5s linear;
+}
+
+.fly-to-cart {
+  animation: flyToCart 0.8s ease-in-out forwards;
+  position: absolute;
+  z-index: 1000;
+}
+
+.img-container {
+  position: relative;
+}
+
+
+.toss-animation {
+  animation: toss 0.5s ease-out forwards;
+}
+
+
+.item-image {
+  position: relative;
+  transition: transform 1s ease-in-out, width 1s ease-in-out, height 1s ease-in-out;
+}
+.animate-to-cart {
+  animation: addToCart 1s ease-in-out forwards;
+  position: relative;
+  z-index: 1000;
+}
 
 .jump-out {
   /* animation: jumpOut 0.5s forwards; */

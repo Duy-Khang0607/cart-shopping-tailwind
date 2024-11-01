@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import CartItems from "./components/CartItems";
 import data from "../data.json";
@@ -10,31 +10,68 @@ function App() {
     return cart ? JSON.parse(cart) : [];
   });
   const [deletingItemId, setDeletingItemId] = useState(null);
+  const [tossingItem, setTossingItem] = useState(null);
+  const cartRef = useRef(null);
+
+
+
   const handleTab = () => {
     setTab(!isTab);
   };
 
   const addToCarts = (item) => {
-    setCartItems((prevItems) => {
-      const existingItemIndex = prevItems.findIndex(
-        (cartItem) => cartItem.id === item.id
-      );
+    setTossingItem(item.id);
+    if (cartRef.current) {
+      const cartRect = cartRef.current.getBoundingClientRect();
+      document.documentElement.style.setProperty('--cart-x', `${cartRect.left - 100}px`);
+      document.documentElement.style.setProperty('--cart-y', `${cartRect.top - 150}px`);
+    }
 
-      if (existingItemIndex !== -1) {
-        const updatedItems = prevItems.map((cartItem, index) => {
-          if (index === existingItemIndex) {
-            return {
-              ...cartItem,
-              quantity: cartItem.quantity + 1,
-            };
-          }
-          return cartItem;
-        });
-        return updatedItems;
-      } else {
-        return [...prevItems, { ...item, quantity: 1 }];
-      }
-    });
+
+    setTimeout(() => {
+      setTossingItem(null); // Remove the toss animation after animation ends
+      setCartItems((prevItems) => {
+        const existingItemIndex = prevItems.findIndex(
+          (cartItem) => cartItem.id === item.id
+        );
+
+        if (existingItemIndex !== -1) {
+          const updatedItems = prevItems.map((cartItem, index) => {
+            if (index === existingItemIndex) {
+              return {
+                ...cartItem,
+                quantity: cartItem.quantity + 1,
+              };
+            }
+            return cartItem;
+          });
+          return updatedItems;
+        } else {
+          return [...prevItems, { ...item, quantity: 1 }];
+        }
+      });
+    }, 300);
+
+    // setCartItems((prevItems) => {
+    //   const existingItemIndex = prevItems.findIndex(
+    //     (cartItem) => cartItem.id === item.id
+    //   );
+
+    //   if (existingItemIndex !== -1) {
+    //     const updatedItems = prevItems.map((cartItem, index) => {
+    //       if (index === existingItemIndex) {
+    //         return {
+    //           ...cartItem,
+    //           quantity: cartItem.quantity + 1,
+    //         };
+    //       }
+    //       return cartItem;
+    //     });
+    //     return updatedItems;
+    //   } else {
+    //     return [...prevItems, { ...item, quantity: 1 }];
+    //   }
+    // });
   };
 
   const handleDeleteCarts = (item) => {
@@ -104,9 +141,24 @@ function App() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:p-10">
             {data?.map((item, index) => {
               return (
-                <>
-                  <CartItems key={index} item={item} addToCarts={addToCarts} />
-                </>
+                // <>
+                //   <CartItems
+                //     key={index}
+                //     item={item}
+                //     addToCarts={addToCarts}
+                //   />
+                // </>
+                <div className="img-container" key={index}>
+                  {tossingItem === item.id && (
+                    <img
+                      src={item.image.desktop}
+                      className="fly-to-cart"
+                      alt="Flying img"
+                      style={{ width: "100px", height: "100px" }} // Adjust size as needed
+                    />
+                  )}
+                  <CartItems item={item} addToCarts={addToCarts} />
+                </div>
               );
             })}
           </div>
@@ -140,14 +192,14 @@ function App() {
             </button>
             <div className="max-h-[calc(100vh-200px)] overflow-y-auto overflow-x-hidden">
               <table className="w-full table-auto border-collapse">
-                <thead className="text-sm sticky top-0 bg-black">
+                <thead className="text-sm sticky top-0 bg-black w-full">
                   <tr className="text-center border-b w-full border-gray-700">
-                    <th className="py-2 px-4 max-w-[200px]">Mã sản phẩm</th>
-                    <th className="py-2 px-4 max-w-[200px]">Sản phẩm</th>
-                    <th className="py-2 px-4 max-w-[200px]">Hình ảnh</th>
-                    <th className="py-2 px-4 max-w-[100px]">Giá</th>
-                    <th className="py-2 px-4 max-w-[200px]">Số lượng</th>
-                    <th className="py-2 px-4 max-w-[200px]">
+                    <th className="py-2 px-4 min-w-[100px]">Mã sản phẩm</th>
+                    <th className="py-2 px-4 min-w-[100px]">Sản phẩm</th>
+                    <th className="py-2 px-4 min-w-[100px]">Hình ảnh</th>
+                    <th className="py-2 px-4 min-w-[100px]">Giá</th>
+                    <th className="py-2 px-4 min-w-[100px]">Số lượng</th>
+                    <th className="py-2 px-4 ">
                       <i className="fa fa-trash"></i>
                     </th>
                   </tr>
@@ -207,12 +259,12 @@ function App() {
               </table>
             </div>
             {/* Total price */}
-            <div class="absolute z-50 bottom-2 left-0 right-0 flex flex-col">
-              <div class="flex justify-between items-center px-4 mt-auto">
-                <h3 class="text-xl font-semibold">Tổng tiền:</h3>
-                <h3 class="text-xl font-semibold">{handleTotalPrice}$</h3>
+            <div className="absolute z-50 bottom-2 left-0 right-0 flex flex-col">
+              <div className="flex justify-between items-center px-4 mt-auto">
+                <h3 className="text-xl font-semibold">Tổng tiền:</h3>
+                <h3 className="text-xl font-semibold">{handleTotalPrice}$</h3>
               </div>
-              <button class="bg-green-500 text-white font-semibold py-2 px-4 mt-4 rounded-md hover:bg-green-400 transition-all duration-200 mx-4">
+              <button className="bg-green-500 text-white font-semibold py-2 px-4 mt-4 rounded-md hover:bg-green-400 transition-all duration-200 mx-4">
                 Thanh toán
               </button>
             </div>

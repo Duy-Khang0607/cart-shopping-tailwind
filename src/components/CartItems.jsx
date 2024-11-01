@@ -1,12 +1,21 @@
 import React from "react";
-const CartItems = ({ item, addToCarts }) => {
+import "../App.css";
+
+const CartItems = ({ item, addToCarts, animatingItemId,imgRef }) => {
   return (
-    <section className="border-2 bg-neutral-100 max-w-[500px] h-full overflow-hidden rounded-lg hover:border-gray-500 transition-all duration-200 hover:shadow-md cursor-pointer p-2">
-      <img
-        className="w-full h-auto object-cover"
-        src={item?.image.desktop}
-        alt="img"
-      />
+    <section
+      className={`border-2 bg-neutral-100 max-w-[500px] h-full rounded-lg hover:border-gray-500 transition-all duration-200 hover:shadow-md cursor-pointer p-2`}
+    >
+      <div
+        className={`item-image ${animatingItemId === item?.id ? "animate-to-cart" : ""}`}
+      >
+        <img
+          className="w-full h-auto object-cover"
+          src={item?.image.desktop}
+          alt="img"
+          ref={imgRef}
+        />
+      </div>
       <div className="flex flex-col">
         <div className="pl-2 text-left leading-10">
           <h1 className="text-md font-normal leading-7 h-[30px]">
